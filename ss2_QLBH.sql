@@ -25,7 +25,7 @@ CREATE TABLE OrderDetail (
     oID int,
     pID int,
     odQTY int,
-    PRIMARY KEY (oID, pID),  -- composite primary key
+    PRIMARY KEY (oID, pID),
     FOREIGN KEY (oID) REFERENCES `Order`(oID),
     FOREIGN KEY (pID) REFERENCES Product(pID)
 );
