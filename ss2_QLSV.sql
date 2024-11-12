@@ -102,3 +102,21 @@ from Student
 join Mark on Student.StudentId = Mark.StudentId
 join `Subject` on Mark.SubId = `Subject`.SubId
 order by Mark desc , Student.StudentName asc;
+
+-- Hiển thị tất cả các thông tin môn học (bảng subject) có credit lớn nhất.
+select *
+from `Subject`
+where Credit =  (select max(Credit) from `Subject`);
+
+-- Hiển thị các thông tin môn học có điểm thi lớn nhất.
+select s.*
+from `Subject` s join Mark m on s.SubID = m.SubID 
+where m.Mark = (select max(Mark) from Mark); 
+-- Hiển thị các thông tin sinh viên và điểm trung bình của mỗi sinh viên, xếp hạng theo thứ tự điểm giảm dần
+select s.* , avg(m.Mark) as diem_trung_binh
+from Student s
+join Mark m on s.StudentID = m.StudentID
+group by s.StudentID
+order by diem_trung_binh desc;
+
+
