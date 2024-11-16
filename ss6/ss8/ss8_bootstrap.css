@@ -1,0 +1,39 @@
+* {
+  /* margin: 0; */
+  /* padding: 0; */
+  box-sizing: border-box;
+}
+.card {
+  /* float: left; */
+  margin-left: 10px;
+  padding: 0px 0px;
+  width: 25%;
+}
+.gallery:hover {
+  border: 1px solid #777;
+}
+
+div.gallery img {
+  /* width: 100%; */
+  /* height: auto; */
+}
+.gallery{
+    width: 100%;
+}
+
+div.card-body {
+  padding: 15px;
+  text-align: center;
+}
+@media only screen and (max-width: 700px) {
+  .card {
+    width: 50%;
+    /* margin: 6px 0px; */
+  }
+}
+@media only screen and (max-width: 500px) {
+  .card {
+    width: 100%;
+    /* margin: 6px 0px; */
+  }
+}

@@ -1,0 +1,141 @@
+*{
+    margin: 0;
+    padding: 0;
+    /* box-sizing: border-box; */
+}
+.header{
+    display: flex;
+    background-color: #F5F5F5;
+    width: 100%;
+    height: 60px;
+    align-items: center;
+}
+.header h1{
+    color: #3D3D3D;
+    font-style: italic;
+}
+.header h2{
+    background-color:#DA251B ;
+    font-style: italic;
+    align-items: center;
+    font-size: 27px;
+    padding: 6px 2px;
+    border-radius: 14px;
+    color: #fff;
+}
+.head-link{
+    width: 100%;
+    height: 40px;
+    background-color: #F5F5F5;
+    margin-top: 6px;
+    display: flex;
+    justify-content: center;
+}
+.head-link a{
+    text-decoration: none;
+    color: #0B1525;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    padding: 20px;
+    position: relative;
+}
+.head-link a::after{
+    content: "";
+    position: absolute;
+    right: 0;
+    height: 15px;
+    border-right: 2px solid black;
+}
+.head-link a:last-child::after{
+    content: none;
+}
+.content{
+   height: auto;
+    width: 100%;
+    display: flex;
+}
+.content .left-content{
+    height: auto;
+    width: 30%;
+    margin-top: 10px; 
+    padding: 10px;
+   border: 10px solid #F8F8FF;
+}
+.item-content{
+    margin-left: 7px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.item-content img{
+    height: 200px;
+    width: 350px;
+}
+.item-content .item-title{
+    font-size: 20px;
+    font-weight: bolder;
+    margin-right: 5px;
+}
+.item-content .item-view{
+    font-size: 14px;
+    color: #91A0AA;
+}
+.item-content .item-title,
+.item-content .item-view {
+    display: inline;
+    margin: 0;
+}
+.item-content .item-channel{
+    color: rgb(114, 113, 114);
+    font-weight: bolder;
+    font-size: 18px;
+}
+.right-content{
+    width: 70%;
+    height: 100vh;
+    margin-left: 35px;
+}
+.right-content iframe{
+    width: 100%;
+    height: 70%;
+    margin-top: 25px;
+}
+.right-content .content-title {
+    font-size: 20px;
+    font-weight: bolder;
+    margin-right: 5px;
+}
+.right-content .content-view {
+    font-size: 14px;
+    color: #91A0AA;
+}
+.right-content .content-title,
+.right-content .content-view {
+    display: inline;
+    margin: 0;
+}
+
+.right-content .content-actor {
+    color: rgb(114, 113, 114);
+    font-weight: bolder;
+    font-size: 18px;
+}
+.right-content .content-sub{
+    margin-top: 15px;
+}
+.right-content .content-sub p{
+    margin-top: 20px;
+    color: #838893;
+    font-size: 18px;
+    font-weight: bolder;
+}
+.footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #F8F8FF;
+    border-top: 1px solid #ddd;
+    margin-top: 5px;
+    font-weight: bolder;
+    font-size: 18px;
+}
