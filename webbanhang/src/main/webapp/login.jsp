@@ -16,17 +16,20 @@
 </head>
 <body>
 <div class="login-container">
+  <form action="login" method="post">
   <h2>ĐĂNG NHẬP</h2>
-  <p>Nếu bạn chưa có tài khoản, <a href="../login/signup.html">đăng ký tại đây</a></p>
+  <p>Nếu bạn chưa có tài khoản, <a href="signup.jsp">đăng ký tại đây</a></p>
   <form>
-    <input type="bane" class="form-control" placeholder="Username">
-    <input type="password" class="form-control" placeholder="Password">
+   <p class="text-danger">${mess}</p>
+    <input type="bane" class="form-control" placeholder="Username" name="user">
+    <input type="password" class="form-control" placeholder="Password" name="pass">
     <button type="submit" class="btn btn-primary">Đăng nhập</button>
   </form>
   <a href="#">Quên mật khẩu</a>
   <p>Hoặc đăng nhập bằng</p>
   <button class="btn btn-social btn-facebook"><i class="fab fa-facebook-f"></i> Facebook</button>
   <button class="btn btn-social btn-google"><i class="fab fa-google"></i> Google</button>
+  </form>
 </div>
 </body>
 </html>

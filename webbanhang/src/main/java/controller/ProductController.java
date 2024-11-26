@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Categories;
 import entity.Product;
 import service.ProductService;
 
@@ -21,9 +22,12 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path = req.getParameter("path");
+        if(path == null){
+            path ="";
+        }
         switch (path) {
-            case "home":
-                showHome(req, resp);
+            case "add":
+                showAdd(req,resp);
                 break;
             case "delete":
                 showDelete(req, resp);
@@ -34,9 +38,13 @@ public class ProductController extends HttpServlet {
                 showSearch(req,resp);
                 break;
             default:
-                showError(req, resp);
+                showHome(req, resp);
 
         }
+    }
+
+    private void showAdd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("add.jsp").forward(req,resp);
     }
 
     private void showSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -61,8 +69,10 @@ public class ProductController extends HttpServlet {
 
     private void showHome(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Product> list = productService.getAll();
+        List<Categories> categories = productService.getAllCategories();
         RequestDispatcher dispatcher = req.getRequestDispatcher("/index.jsp");
         req.setAttribute("list" ,list);
+        req.setAttribute("listCC",categories);
         dispatcher.forward(req,resp);
     }
 
@@ -75,9 +85,12 @@ public class ProductController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String path =req.getParameter("path");
+        if(path == null){
+            path ="";
+        }
         switch (path){
             case "add":
-//                add(req,resp);
+                add(req,resp);
                 break;
             case "edit":
                 edit(req,resp);
@@ -91,6 +104,18 @@ public class ProductController extends HttpServlet {
         }
     }
 
+    private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String name = req.getParameter("name");
+        String description = req.getParameter("description");
+        double price = Double.parseDouble(req.getParameter("price"));
+        String title = req.getParameter("title");
+        String image = req.getParameter("image");
+
+        Product product = new Product(name,description,title,price,image);
+        productService.add(product);
+        resp.sendRedirect("/products");
+    }
+
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
@@ -100,7 +125,7 @@ public class ProductController extends HttpServlet {
         String image = req.getParameter("image");
         Product product = new Product(name,description,title,price,image);
         productService.update(id,product);
-        resp.sendRedirect("/products?path=home");
+        resp.sendRedirect("/products");
     }
 
 

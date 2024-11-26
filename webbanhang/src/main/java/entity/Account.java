@@ -2,30 +2,21 @@ package entity;
 
 public class Account {
     private int id;
-    private String firstName;
-    private String lastName;
-    private String username;
-    private String phoneNumber;
-    private String password;
+   private String user;
+   private String pass;
 
-    public Account() {
-    }
 
-    public Account(String firstName, String lastName, String username, String phoneNumber, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
-    }
-
-    public Account(int id, String firstName, String lastName, String username, String phoneNumber, String password) {
+    public Account(int id, String user, String pass) {
         this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.username = username;
-        this.phoneNumber = phoneNumber;
-        this.password = password;
+        this.user = user;
+        this.pass = pass;
+
+    }
+
+    public Account(String user, String pass) {
+        this.user = user;
+        this.pass = pass;
+
     }
 
     public int getId() {
@@ -36,43 +27,21 @@ public class Account {
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getUser() {
+        return user;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getLastName() {
-        return lastName;
+    public String getPass() {
+        return pass;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }

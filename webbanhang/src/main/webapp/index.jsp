@@ -36,7 +36,7 @@
                 <option value="thoi-trang-nam">Thời trang nam</option>
                 <option value="tat-ca" selected>Tất cả</option>
             </select>
-            <form action="${pageContext.request.contextPath}/products" method="get" >
+            <form action="${pageContext.request.contextPath}/products" method="get"  style="display: flex;  max-width:120px; margin: auto;">
                 <input type="hidden" name="path" value="search">
             <input class="search-input" type="text" placeholder="Tìm sản phẩm bạn mong muốn" name="keyword">
             <button class="search-button" type="submit">
@@ -46,11 +46,19 @@
         </div>
         <div class="account">
             <div class="account-user">
-                <span style="color: #fff ; font-size: 13px">Hello Khanh</span>
+                <c:if test="${sessionScope.acc != null}">
+                <span style="color: #fff ; font-size: 13px">Hello ${sessionScope.acc.user}</span>
+                </c:if>
                 <i class="fa-solid fa-user"></i>
-                <a href="../login/login.html">Đăng nhập </a>
+                <c:if test="${sessionScope.acc != null}">
+                  <a href="logout">Đăng xuất</a>
+                </c:if>
+                <c:if test="${sessionScope.acc == null}">
+                <a href="login.jsp">Đăng nhập </a>
                 <span class="divider">/</span>
-                <a href="../login/signup.html">Đăng Ký</a>
+                    <a href="signup.jsp">Đăng Ký</a>
+                </c:if>
+
             </div>
             <div class="cart">
                 <a href=""><i class="fa-solid fa-cart-shopping"></i></a>
@@ -106,51 +114,60 @@
         </div>
     </div>
     <div class="main">
-<%--        <div class="side-bar">--%>
-<%--            <div class="side-bar-top"> </div>--%>
+        <div class="side-bar">
+            <div class="side-bar-top bg-light p-3 rounded shadow">
+                <c:forEach var="item" items="${listCC}">
+                <ul class="list-group">
+                    <li class="list-group-item">${item.name}</li>
+                </ul>
+                </c:forEach>
+            </div>
 <%--            <div class="side-bar-bot"></div>--%>
-<%--        </div>--%>
+        </div>
         <div class="mid">
-<%--            <div class="mid-top">--%>
-<%--                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">--%>
-<%--                    <div class="carousel-indicators">--%>
-<%--                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"--%>
-<%--                                class="active" aria-current="true" aria-label="Slide 1"></button>--%>
-<%--                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"--%>
-<%--                                aria-label="Slide 2"></button>--%>
-<%--                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"--%>
-<%--                                aria-label="Slide 3"></button>--%>
-<%--                    </div>--%>
-<%--                    <div class="carousel-inner">--%>
-<%--                        <div class="carousel-item active">--%>
-<%--                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"--%>
-<%--                                 class="d-block w-100" alt="...">--%>
-<%--                        </div>--%>
-<%--                        <div class="carousel-item">--%>
-<%--                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"--%>
-<%--                                 class="d-block w-100" alt="...">--%>
-<%--                        </div>--%>
-<%--                        <div class="carousel-item">--%>
-<%--                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"--%>
-<%--                                 class="d-block w-100" alt="...">--%>
-<%--                        </div>--%>
-<%--                    </div>--%>
-<%--                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"--%>
-<%--                            data-bs-slide="prev">--%>
-<%--                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-<%--                        <span class="visually-hidden">Previous</span>--%>
-<%--                    </button>--%>
-<%--                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"--%>
-<%--                            data-bs-slide="next">--%>
-<%--                        <span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-<%--                        <span class="visually-hidden">Next</span>--%>
-<%--                    </button>--%>
-<%--                </div>--%>
-<%--            </div>--%>
+            <div class="mid-top">
+                <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                class="active" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                aria-label="Slide 3"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"
+                                 class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"
+                                 class="d-block w-100" alt="...">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="https://img3.thuthuatphanmem.vn/uploads/2019/10/14/banner-thoi-trang-dang-cap-hien-dai_113856116.png"
+                                 class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                            data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                </div>
+            </div>
             <div class="mid-bot">
-                <div class="row">
+                <div class="mid-bot-add btn btn-primary" style="text-decoration: none;margin-top: 15px;">
+                    <a href="http://localhost:8080/products?path=add" style="text-decoration: none;color: #fff" >Thêm sản phẩm</a>
+                </div>
+                <div class="row" style="margin-top: 20px">
                     <c:forEach items="${list}" varStatus="loop" var="item">
-                        <div class="card" style="width: 18rem">
+                        <div class="card" style="width: 18rem; margin-top: 20px" >
                             <img src="${item.image}" class="card-img-top" alt="..." />
                             <div class="card-body">
 

@@ -8,6 +8,7 @@
 <body>
 <h1>Hello World!</h1>
 <br/>
+<form action="http://localhost:8080/customer" method="post">
 <h1>Danh sách khách hàng</h1>
 <table border="1">
     <tr>
@@ -25,5 +26,6 @@
         </tr>
     </c:forEach>
 </table>
+</form>
 </body>
 </html>

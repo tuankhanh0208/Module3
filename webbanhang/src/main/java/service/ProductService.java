@@ -1,6 +1,8 @@
 package service;
 
 import configuration.ConnectDatabase;
+import entity.Account;
+import entity.Categories;
 import entity.Product;
 
 import java.sql.Connection;
@@ -17,9 +19,38 @@ public class ProductService implements IProductService<Product> {
     }
     @Override
     public void add(Product product) {
-
+        String sql = "insert into product (name,description,price,title,image) values (?,?,?,?,?)";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,product.getName());
+            preparedStatement.setString(2,product.getDescription());
+            preparedStatement.setDouble(3,product.getPrice());
+            preparedStatement.setString(4,product.getTitle());
+            preparedStatement.setString(5,product.getImage());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
+    public List<Categories> getAllCategories(){
+        List<Categories> categories = new ArrayList<>();
+        String sql = "select * from categories;";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                Categories categories1 = new Categories(
+                        resultSet.getString("name"),
+                        resultSet.getString("description")
+                );
+                categories.add(categories1);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return categories;
+    }
     @Override
     public List<Product> getAll() {
         List<Product> products = new ArrayList<>();
@@ -120,4 +151,5 @@ public class ProductService implements IProductService<Product> {
         }
         return products;
     }
+
 }

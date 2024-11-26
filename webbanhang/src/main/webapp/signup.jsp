@@ -17,13 +17,15 @@
 <body>
 <div class="register-container">
     <h2>ĐĂNG KÝ</h2>
-    <p>Đã có tài khoản, đăng nhập <a href="../login/login.html">tại đây</a></p>
-    <form>
-        <input type="text" class="form-control" placeholder="Họ">
-        <input type="text" class="form-control" placeholder="Tên">
-        <input type="name" class="form-control" placeholder="Username">
-        <input type="text" class="form-control" placeholder="Số điện thoại">
-        <input type="password" class="form-control" placeholder="Password">
+    <p>Đã có tài khoản, đăng nhập <a href="login.jsp">tại đây</a></p>
+    <p class="text-danger">${mess}</p>
+    <form action="signup" method="post">
+<%--        <input type="text" class="form-control" placeholder="Họ">--%>
+<%--        <input type="text" class="form-control" placeholder="Tên">--%>
+        <input name="user" type="name" class="form-control" placeholder="Username">
+<%--        <input type="text" class="form-control" placeholder="Số điện thoại">--%>
+        <input name="pass" type="password" class="form-control" placeholder="Password">
+    <input name="repass" type="password" id="user-repeatpass" class="form-control" placeholder="Repeat Password" >
         <button type="submit" class="btn btn-register">Đăng ký</button>
     </form>
     <div class="social-login">

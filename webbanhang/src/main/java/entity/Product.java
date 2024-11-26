@@ -9,7 +9,7 @@ public class Product {
     private String title;
     private double price;
     private String image;
-
+    private int categoriesId ;
 
     public Product() {
     }
