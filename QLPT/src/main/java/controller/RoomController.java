@@ -66,11 +66,11 @@ public class RoomController extends HttpServlet {
 
     private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String roomId = req.getParameter("idRoom");
-        System.out.println(roomId);
         Room room = roomService.findById(roomId);
+        System.out.println(roomId);
         req.setAttribute("rooms", room);
         req.getRequestDispatcher("edit.jsp").forward(req, resp);
-        req.setAttribute("list", resp);
+//        req.setAttribute("list", resp);
     }
 
     private void showAll(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -118,8 +118,8 @@ public class RoomController extends HttpServlet {
 
         // Check if there are any selected room IDs
         if (roomIds != null && roomIds.length > 0) {
-            req.setAttribute("selectedRoomIds", Arrays.asList(roomIds));  // Pass the room IDs to the JSP
-            req.getRequestDispatcher("confirm.jsp").forward(req, resp);  // Forward to confirmation page
+            req.setAttribute("selectedRoomIds", Arrays.asList(roomIds));
+            req.getRequestDispatcher("confirm.jsp").forward(req, resp);
         } else {
             // No room selected, handle accordingly (optional)
             resp.sendRedirect("/rooms");
@@ -136,8 +136,9 @@ public class RoomController extends HttpServlet {
         String username = req.getParameter("username");
         System.out.println(username);
         String phone = req.getParameter("phone");
-        Date dateStart = Date.valueOf(req.getParameter("dateStart"));
+       Date dateStart = Date.valueOf(req.getParameter("dateStart"));
         int paymentMethod = Integer.parseInt(req.getParameter("paymentMethod"));
+        System.out.println(paymentMethod);
         String note = req.getParameter("note");
 
         Room room = new Room(username, phone, dateStart, paymentMethod, note);
@@ -159,9 +160,21 @@ public class RoomController extends HttpServlet {
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
         String phone = req.getParameter("phone");
-        Date dateStart = Date.valueOf(req.getParameter("dateStart"));
+            Date dateStart = null;
+        String dateInput = req.getParameter("dateStart");
+        try {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            java.util.Date formatDate =  dateFormat.parse(dateInput);
+
+            Date sqlDate = new Date(formatDate.getTime());
+
+            dateStart = sqlDate;
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
         int paymentMethod = Integer.parseInt(req.getParameter("paymentMethod"));
         String note = req.getParameter("note");
+
 
         boolean hasError = false;
 

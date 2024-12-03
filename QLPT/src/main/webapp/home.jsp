@@ -89,7 +89,10 @@
                 <td>${room.username}</td>
                 <td>${room.phone}</td>
                 <td>
-                    <fmt:formatDate type="date" value="${room.dateStart}" />
+
+                    <fmt:formatDate pattern="dd/MM/yyyy"
+                                    value = "${room.dateStart}" />
+
                 </td>
                 <td>
                     <c:if test="${room.paymentMethod == 1}">Theo tháng</c:if>
@@ -101,7 +104,7 @@
                     <input type="checkbox" name="selectedRooms" value="${room.idRoom}">
                 </td>
                 <td>
-                    <a href="${pageContext.request.contextPath}/rooms?path=edit&idRoom =${room.idRoom}">Edit</a>
+                    <a href="${pageContext.request.contextPath}/rooms?path=edit&idRoom=${room.idRoom}">Edit</a>
                 </td>
 
             </tr>

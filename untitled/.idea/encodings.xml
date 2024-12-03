@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-common/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-dao-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-dao-impl/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-dao/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-dao/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-data/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-persistence-data/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-persistence-data/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-service-impl/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-service-impl/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-utils/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-utils/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-core-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-web-logic/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-web-logic/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-web/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-web/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-webs/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/toeic-webs/src/main/resources" charset="UTF-8" />
+  </component>
+</project>

@@ -1,7 +1,7 @@
 package entity;
 
 public class Categories {
-    private int id;
+    private int cid;
     private String name;
     private String description;
 
@@ -10,12 +10,18 @@ public class Categories {
         this.description = description;
     }
 
-    public int getId() {
-        return id;
+    public Categories(int cid, String name, String description) {
+        this.cid = cid;
+        this.name = name;
+        this.description = description;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getCid() {
+        return cid;
+    }
+
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 
     public String getName() {

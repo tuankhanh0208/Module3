@@ -33,7 +33,7 @@ public class RoomService implements IRoomService<Room> {
     @Override
     public List<Room> getAll() {
         List<Room> rooms = new ArrayList<>();
-        String sql = "select * from tenant";
+        String sql = "select  * from tenant";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -65,7 +65,7 @@ public class RoomService implements IRoomService<Room> {
             preparedStatement.setDate(3,room.getDateStart());
             preparedStatement.setInt(4,room.getPaymentMethod());
             preparedStatement.setString(5, room.getNote());
-            preparedStatement.setString(6, String.valueOf(id));
+            preparedStatement.setString(6, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

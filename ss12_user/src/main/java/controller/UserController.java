@@ -1,6 +1,7 @@
 package controller;
 
 import entity.User;
+import service.IUserService;
 import service.UserService;
 
 import javax.servlet.ServletException;
@@ -13,7 +14,7 @@ import java.sql.SQLException;
 import java.util.List;
 @WebServlet(name = "user-controller", value = "/users")
 public class UserController extends HttpServlet {
-    private final UserService userService = new UserService();
+    private final IUserService<User> userService = new UserService();
 
     public UserController() throws SQLException {
     }

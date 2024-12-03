@@ -25,7 +25,7 @@
     padding: 50px;
     border-radius: 10px;
   }
-  #maPhongTro{
+  #idRoom{
     color: #fff;
     background-color: rgb(77, 73, 73);
   }
@@ -49,17 +49,18 @@
     <div class="mb-3">
       <label for="dateStart" class="form-label">Ngày bắt đầu thuê</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="dateStart" name="dateStart" placeholder="Nhập ngày bắt đầu thuê" value="${rooms.dateStart}">
+        <input type="date" class="form-control" id="dateStart" name="dateStart" placeholder="Nhập ngày bắt đầu thuê" value="${rooms.dateStart}">
         <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
       </div>
     </div>
     <div class="mb-3">
       <label for="paymentMethod" class="form-label">Hình thức thanh toán</label>
-      <select class="form-select" id="paymentMethod" name="paymentMethod" >
-        <option value="1">Theo Tháng</option>
-        <option value="2">Theo Quý</option>
-        <option value="3">Theo Năm</option>
+      <select class="form-select" id="paymentMethod" name="paymentMethod">
+        <option value="1" ${rooms.paymentMethod == 1 ? 'selected' : ''}>Theo Tháng</option>
+        <option value="2" ${rooms.paymentMethod == 2 ? 'selected' : ''}>Theo Quý</option>
+        <option value="3" ${rooms.paymentMethod == 3 ? 'selected' : ''}>Theo Năm</option>
       </select>
+
     </div>
     <div class="mb-3">
       <label for="note" class="form-label">Ghi chú</label>
@@ -67,7 +68,7 @@
     </div>
     <div class="text-center">
       <button type="submit" class="btn btn-primary" >Sửa</button>
-      <button type="button" class="btn btn-secondary">Hủy</button>
+      <a href="${pageContext.request.contextPath}/rooms" > <button type="button" class="btn btn-secondary" >Hủy</button></a>
     </div>
   </form>
 </div>

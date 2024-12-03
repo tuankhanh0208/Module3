@@ -2,6 +2,8 @@ package service;
 
 import configuration.ConnectDatabase;
 import entity.Account;
+import repository.AccountRepository;
+import repository.IAccountRepository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,67 +11,28 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AccountService implements IAccountService<Account>{
-    private Connection connection;
+    private final IAccountRepository<Account> iAccountRepository = new AccountRepository();
+
     public AccountService() throws SQLException {
-        this.connection = ConnectDatabase.getConnection();
     }
-@Override
-    public Account login(String user, String pass){
-        String sql = "SELECT * FROM account WHERE `user` = ? AND pass = ?";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, user);
-            preparedStatement.setString(2, pass);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Account(
-                            resultSet.getInt("uID"),
-                            resultSet.getString("user"),
-                            resultSet.getString("pass")
-
-
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error while executing login query.", e);
-        }
-
-        return null;
+    @Override
+    public Account login(String user, String pass) {
+        return this.iAccountRepository.login(user,pass);
     }
-    public Account checkAccountExist (String user){
-        String sql = "SELECT * FROM account WHERE `user` = ? ";
 
-        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, user);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                if (resultSet.next()) {
-                    return new Account(
-                            resultSet.getInt("uID"),
-                            resultSet.getString("user"),
-                            resultSet.getString("pass")
-                    );
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new RuntimeException("Error while executing login query.", e);
-        }
-
-        return null;
+    @Override
+    public Account checkAccountExist(String user) {
+        return this.iAccountRepository.checkAccountExist(user);
     }
-    public void signup(String user,String pass){
-        String sql = "insert into account (user, pass) values (?,?); ";
-        try {
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1,user);
-            preparedStatement.setString(2,pass);
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
+
+    @Override
+    public void signup(String user, String pass) {
+        this.iAccountRepository.signup(user,pass);
+    }
+
+    @Override
+    public boolean resetPassword(String user, String newPass) {
+        return iAccountRepository.resetPassword(user, newPass);
     }
 }

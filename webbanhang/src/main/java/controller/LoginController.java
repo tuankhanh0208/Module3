@@ -39,6 +39,10 @@ public class LoginController extends HttpServlet {
             session.setAttribute("acc",account);
             session.setMaxInactiveInterval(10);
 //            req.getRequestDispatcher("index.jsp").forward(req,resp);
+            javax.servlet.http.Cookie userCookie = new javax.servlet.http.Cookie("username", account.getUser());
+            userCookie.setMaxAge(7 * 24 * 60 * 60); // Cookie tồn tại trong 7 ngày
+            resp.addCookie(userCookie);
+            
             resp.sendRedirect("/products");
         }
     }
