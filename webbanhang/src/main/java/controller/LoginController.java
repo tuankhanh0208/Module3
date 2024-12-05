@@ -22,7 +22,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       req.getRequestDispatcher("login.jsp").forward(req,resp);
+       req.getRequestDispatcher("style/page/login/login.jsp").forward(req,resp);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class LoginController extends HttpServlet {
         Account account = accountService.login(username,password);
         if (account == null){
             req.setAttribute("mess" ,"Wrong user or pass");
-            req.getRequestDispatcher("login.jsp").forward(req,resp);
+            req.getRequestDispatcher("style/page/login/login.jsp").forward(req,resp);
         }else {
             HttpSession session = req.getSession();
             session.setAttribute("acc",account);

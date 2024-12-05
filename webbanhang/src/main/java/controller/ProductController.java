@@ -44,6 +44,9 @@ public class ProductController extends HttpServlet {
             case "searchSlide":
                 showSearchSlide(req,resp);
                 break;
+            case "detail":
+                showDetail(req,resp);
+                break;
             default:
                 showHome(req, resp);
 //                showCategory(req,resp);
@@ -52,12 +55,21 @@ public class ProductController extends HttpServlet {
         }
     }
 
+    private void showDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        Product product = productService.findById(id);
+        List<Categories> categories = productService.getAllCategories();
+        req.setAttribute("products",product);
+        req.setAttribute("listCC",categories);
+        req.getRequestDispatcher("style/page/home/detail.jsp").forward(req,resp);
+    }
+
     private void showSearchSlide(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String minPrice = req.getParameter("minPrice");
         String maxPrice = req.getParameter("maxPrice");
 
         if (minPrice == null || maxPrice ==null){
-            resp.sendRedirect("error.jsp");
+            resp.sendRedirect("style/page/errors/error.jsp");
             return;
         }
         double min = Double.parseDouble(minPrice);
@@ -67,7 +79,7 @@ public class ProductController extends HttpServlet {
         List<Categories> categories = productService.getAllCategories();
         req.setAttribute("listCC",categories);
         req.setAttribute("list",products);
-        req.getRequestDispatcher("index.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/home/index.jsp").forward(req,resp);
     }
 
     private void showCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -77,11 +89,11 @@ public class ProductController extends HttpServlet {
         req.setAttribute("listCC",categories);
         req.setAttribute("list",products);
         req.setAttribute("tag",cateID);
-        req.getRequestDispatcher("index.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/home/index.jsp").forward(req,resp);
     }
 
     private void showAdd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("add.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/addProduct/add.jsp").forward(req,resp);
     }
 
     private void showSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -114,14 +126,14 @@ public class ProductController extends HttpServlet {
 //                    "                        </div>");
 //        }
         req.setAttribute("list" ,products);
-        req.getRequestDispatcher("index.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/home/index.jsp").forward(req,resp);
     }
 
     private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int idIndex = Integer.parseInt(req.getParameter("id"));
         Product product = productService.findById(idIndex);
         req.setAttribute("product",product);
-        req.getRequestDispatcher("edit.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/editProduct/edit.jsp").forward(req,resp);
     }
 
     private void showDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -135,13 +147,13 @@ public class ProductController extends HttpServlet {
         List<Categories> categories = productService.getAllCategories();
         req.setAttribute("listCC",categories);
         req.setAttribute("list" ,list);
-        RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("style/page/home/index.jsp");
         dispatcher.forward(req,resp);
     }
 
     private void showError(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("errorMessage","Bad Request - 404");
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/error.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("style/page/errors/error.jsp");
         dispatcher.forward(req,resp);
     }
 

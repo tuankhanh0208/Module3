@@ -20,7 +20,7 @@ public class SignUpController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("signup.jsp").forward(req,resp);
+        req.getRequestDispatcher("style/page/login/signup.jsp").forward(req,resp);
     }
 
     @Override
@@ -30,15 +30,15 @@ public class SignUpController extends HttpServlet {
         String re_pass = req.getParameter("repass");
         if (!pass.equals(re_pass)){
             req.setAttribute("mess" , "Password does not match Repeat Password");
-            req.getRequestDispatcher("signup.jsp").forward(req,resp);
+            req.getRequestDispatcher("style/page/login/signup.jsp").forward(req,resp);
         } else {
             Account account = accountService.checkAccountExist(user);
             if (account == null){
                 accountService.signup(user,pass);
-                resp.sendRedirect("index.jsp");
+                resp.sendRedirect("style/page/home/index.jsp");
             }else {
                 req.setAttribute("mess" , "Username has existed ");
-                req.getRequestDispatcher("signup.jsp").forward(req,resp);
+                req.getRequestDispatcher("style/page/login/signup.jsp").forward(req,resp);
             }
         }
     }

@@ -1,0 +1,123 @@
+
+header {
+    background-color: #343a40;
+    color: #ffffff;
+    padding: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Container */
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Logo */
+header .logo a {
+    margin-left: 0;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+    transition: color 0.3s ease;
+}
+
+header .logo a:hover {
+    color: #00d1b2;
+}
+
+/* Search */
+header .search {
+    flex: 1;
+    margin: 0 20px;
+}
+
+header .search form {
+    display: flex;
+    align-items: center;
+}
+
+header .search input {
+    flex: 1;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+header .search button {
+    margin-left: 5px;
+    color: #ffffff;
+    background-color: #198754;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+header .search button:hover {
+    background-color: #157347;
+}
+
+/* Account */
+header .account {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+header .account .title-account {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+header .account .image-account img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+}
+
+header .account-login {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+}
+
+header .account-login a {
+    text-decoration: none;
+    color: #00d1b2;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+header .account-login a:hover {
+    color: #ffffff;
+}
+
+header .account-login .divider {
+    color: #ffffff;
+    margin: 0 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    header .search {
+        margin: 0;
+        width: 100%;
+    }
+    header .search input {
+        width: calc(100% - 60px);
+    }
+    header .account {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
