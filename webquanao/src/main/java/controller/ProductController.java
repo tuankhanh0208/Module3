@@ -1,6 +1,8 @@
 package controller;
 
 import entity.Categories;
+import entity.Item;
+import entity.Order;
 import entity.Product;
 import service.ProductService;
 
@@ -10,8 +12,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 @WebServlet(name = "productController",value="/products")
 public class ProductController extends HttpServlet {
@@ -38,11 +42,110 @@ public class ProductController extends HttpServlet {
             case "detail":
                 showDetail(req,resp);
                 break;
+            case "login":
+                showLogin(req,resp);
+                break;
+            case "order":
+                showOrder(req,resp);
+                break;
+            case "cart":
+                showCart(req,resp);
+                break;
             default:
                 showHome(req, resp);
                 break;
 
         }
+    }
+
+    private void showCart(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        if (request.getParameter("remove") != null) {
+            int removeId = Integer.parseInt(request.getParameter("remove"));
+            HttpSession session = request.getSession();
+            Order order = (Order) session.getAttribute("cart");
+            if (order != null) {
+                List<Item> itemList = order.getItems();
+                itemList.removeIf(item -> item.getProduct().getId() == removeId);
+                session.setAttribute("cart", order);
+            }
+            response.sendRedirect("/cart");
+            return;
+        }
+
+        HttpSession session = request.getSession();
+        Order order = (Order) session.getAttribute("cart");
+        request.setAttribute("order", order);
+        request.getRequestDispatcher("/style/page/cart/cart.jsp").forward(request, response);
+    }
+
+    private void showOrder(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int quantity = 1;
+        int id;
+
+        if (request.getParameter("id") != null) {
+            id = Integer.parseInt(request.getParameter("id"));
+            Product product = productService.findById(id);
+
+            if (product != null) {
+                if (request.getParameter("quantity") != null) {
+                    quantity = Integer.parseInt(request.getParameter("quantity"));
+                }
+
+                HttpSession session = request.getSession();
+
+                if (session.getAttribute("cart") == null) {
+                    Order order = new Order();
+                    List<Item> itemList = new ArrayList<>();
+                    Item item = new Item();
+                    item.setQuantity(quantity);
+                    item.setProduct(product);
+                    item.setPrice(product.getPrice());
+                    itemList.add(item);
+                    order.setItems(itemList);
+                    session.setAttribute("cart", order);
+                } else {
+
+                    Order order = (Order) session.getAttribute("cart");
+                    List<Item> itemList = order.getItems();
+                    boolean isProductInCart = false;
+//                    double totalPrice = order.getTotalPrice();
+//                    session.setAttribute("totalPrice", totalPrice);
+                    for (Item item : itemList) {
+                        if (item.getProduct().getId() == product.getId()) {
+                            item.setQuantity(item.getQuantity() + quantity);
+                            isProductInCart = true;
+                            break;
+                        }
+                    }
+
+                    if (!isProductInCart) {
+                        Item item = new Item();
+                        item.setQuantity(quantity);
+                        item.setProduct(product);
+                        item.setPrice(product.getPrice());
+                        itemList.add(item);
+                    }
+
+                    session.setAttribute("cart", order);
+                }
+                Order cart = (Order) session.getAttribute("cart");
+                if (cart != null) {
+                    int totalQuantity = cart.getItems().stream()
+                            .mapToInt(Item::getQuantity)
+                            .sum();
+                    session.setAttribute("totalQuantity", totalQuantity);
+                }
+            }
+
+
+            response.sendRedirect(request.getContextPath() + "/products");
+        } else {
+            response.sendRedirect(request.getContextPath() + "/products");
+        }
+    }
+
+    private void showLogin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/style/page/login/login.jsp").forward(req,resp);
     }
 
     private void showDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

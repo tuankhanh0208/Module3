@@ -101,7 +101,9 @@
             <div class="item-info">
             <a href="/style/page/card/card.jsp"><i class="fa-solid fa-cart-shopping"></i></a>
             </div>
-            <div class="quantiy-mess">2</div>
+            <div class="quantiy-mess">
+                ${sessionScope.totalQuantity}
+            </div>
         </div>
     </div>
 </div>

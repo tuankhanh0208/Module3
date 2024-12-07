@@ -106,7 +106,7 @@ public class ProductRepository implements IProductRepository<Product> {
 
     @Override
     public void update(int id, Product product) {
-        String sql = "update product set name=? ,description=? ,title=? ,price=? ,image=? where id=? ;";
+        String sql = "update product set name=? ,description=? ,title=? ,price=? ,image=? ,idCategory=? where id=? ;";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,product.getName());
@@ -114,7 +114,8 @@ public class ProductRepository implements IProductRepository<Product> {
             preparedStatement.setString(3,product.getTitle());
             preparedStatement.setDouble(4,product.getPrice());
             preparedStatement.setString(5,product.getImage());
-            preparedStatement.setInt(6,id);
+            preparedStatement.setInt(6,product.getIdCategory());
+            preparedStatement.setInt(7,id);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {

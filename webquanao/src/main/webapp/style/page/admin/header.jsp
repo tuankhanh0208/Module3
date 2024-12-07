@@ -27,7 +27,7 @@
         <div class="search">
             <form class="d-flex" role="search">
                 <input type="hidden" name="path" value="search">
-                <input  class="form-control me-2"  placeholder="Search" aria-label="Search" name="keyword">
+                <input oninput="searchByName(this)" class="form-control me-2"  placeholder="Search" aria-label="Search" name="keyword" value="${txt}">
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
@@ -48,7 +48,7 @@
                         <a href="logout">Đăng xuất</a>
                     </c:if>
                     <c:if test="${sessionScope.acc == null}">
-                        <a href="/style/page/login/login.jsp">Đăng nhập </a>
+                        <a href="${pageContext.request.contextPath}/admin?path=login">Đăng nhập </a>
                         <span class="divider">/</span>
                         <a href="/style/page/login/signup.jsp">Đăng Ký</a>
                     </c:if>
@@ -58,5 +58,32 @@
         </div>
     </div>
 </header>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    <%--let typingTimer;--%>
+    <%--function searchByName(param) {--%>
+    <%--    clearTimeout(typingTimer);--%>
+    <%--    typingTimer = setTimeout(function () {--%>
+    <%--        var txtSearch = param.value.trim();--%>
+    <%--        if (txtSearch !== "") {--%>
+    <%--            $.ajax({--%>
+    <%--                url: "${pageContext.request.contextPath}/admin",--%>
+    <%--                type: "get",--%>
+    <%--                data: {--%>
+    <%--                    keyword: txtSearch--%>
+    <%--                },--%>
+    <%--                success: function (data) {--%>
+    <%--                    var row = document.getElementById("content");--%>
+    <%--                    row.innerHTML = data;--%>
+    <%--                },--%>
+    <%--                error: function (xhr) {--%>
+    <%--                    console.error("Error:", xhr);--%>
+    <%--                }--%>
+    <%--            });--%>
+    <%--        }--%>
+    <%--    }, 300);--%>
+    <%--}--%>
+
+</script>
 </body>
 </html>

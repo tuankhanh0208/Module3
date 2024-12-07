@@ -7,6 +7,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -38,6 +39,9 @@ public class AdminController extends HttpServlet {
             case "search":
                 showSearch(request,response);
                 break;
+            case "login":
+                showLogin(request,response);
+                break;
             default:
                 showHomeAdmin(request, response);
 //                showError(request,response);
@@ -45,11 +49,17 @@ public class AdminController extends HttpServlet {
         }
     }
 
+    private void showLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/style/page/login/login.jsp").forward(request,response);
+    }
+
     private void showSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String keyword =request.getParameter("keyword");
         List<Product> products =productService.findByString(keyword,keyword);
+
         request.setAttribute("list" ,products);
+        request.setAttribute("txt" ,keyword);
         request.getRequestDispatcher("style/page/admin/home.jsp").forward(request,response);
     }
 
@@ -114,6 +124,9 @@ public class AdminController extends HttpServlet {
                 break;
             case "edit":
                 edit(request,response);
+                break;
+            case "login":
+                showLogin(request,response);
                 break;
             default:
                 showError(request,response);

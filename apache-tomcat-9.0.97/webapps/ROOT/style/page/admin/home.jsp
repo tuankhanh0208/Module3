@@ -69,6 +69,7 @@
 
 </style>
 <body>
+<c:if test="${not empty sessionScope.acc}">
 <jsp:include page="header.jsp"/>
 <div class="table-container">
     <p>Danh sách sẩn phẩm</p>
@@ -87,7 +88,7 @@
             <th colspan="2">Action</th>
         </tr>
         </thead>
-        <tbody>
+        <tbody id="content">
         <c:forEach items="${list}" var="item" varStatus="loop">
             <tr>
                 <td>${loop.index+1}</td>
@@ -133,6 +134,10 @@
         <a href="${pageContext.request.contextPath}/admin" class="btn btn-secondary" style="background-color: #1c5b41">OK</a>
     </div>
 </div>
+</c:if>
+<c:if test="${empty sessionScope.acc}">
+    <p>Vui lòng <a href="${pageContext.request.contextPath}/login">đăng nhập</a> để xem nội dung này.</p>
+</c:if>
 <script>
     document.getElementById("deleteButton").addEventListener("click", function() {
         var selectedProducts = document.querySelectorAll('input[name="selectedProduct"]:checked');

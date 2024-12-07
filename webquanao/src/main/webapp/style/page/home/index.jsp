@@ -55,18 +55,8 @@
                             <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
                         </div>
                         <div style="display: flex; justify-content: space-between;">
-                            <a href="http://localhost:8080/products?path=card&id=${item.id}"
+                            <a href="http://localhost:8080/products?path=order&id=${item.id}"
                                class="btn btn-primary edit">Add to card</a>
-<%--                            <label for="delete-${loop.index}" class="btn btn-primary red">Xóa</label>--%>
-<%--                            <input type="checkbox" id="delete-${loop.index}" class="confirm-checkbox"/>--%>
-<%--                            <div class="confirm-modal">--%>
-<%--                                <div class="modal-content">--%>
-<%--                                    <p>Bạn có chắc chắn muốn xóa?</p>--%>
-<%--                                    <a href="http://localhost:8080/products?path=delete&id=${item.id}"--%>
-<%--                                       class="btn btn-danger">Xác nhận</a>--%>
-<%--                                    <label for="delete-${loop.index}" class="btn btn-secondary">Hủy</label>--%>
-<%--                                </div>--%>
-<%--                            </div>--%>
                         </div>
                     </div>
                 </c:forEach>
