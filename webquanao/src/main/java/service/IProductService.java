@@ -15,4 +15,9 @@ public interface IProductService<T>{
     List<Product> getProductByCID(String cid);
 
     List<Product> getProductByPriceRange(double min, double max);
+    List<Product> getAllAdmin();
+    List<Product> findByTest(String name, double price);
+    int addCategory(Categories category);
+
+
 }

@@ -69,7 +69,7 @@
 
 </style>
 <body>
-<c:if test="${not empty sessionScope.acc}">
+<%--<c:if test="${not empty sessionScope.acc}">--%>
 <jsp:include page="header.jsp"/>
 <div class="table-container">
     <p>Danh sách sẩn phẩm</p>
@@ -98,16 +98,15 @@
                 <td>${item.title}</td>
                 <td><img src="${item.image}" width="200px" height="200px"></td>
                 <td>
-                    <c:if test="${item.idCategory == 1}">Men</c:if>
-                    <c:if test="${item.idCategory == 2}">Women</c:if>
-                    <c:if test="${item.idCategory == 3}">Kids</c:if>
-                    <c:if test="${item.idCategory == 4}">Shoes</c:if>
-                    <c:if test="${item.idCategory == 5}">Accessories</c:if>
+                   ${item.idCategory.name}
                 </td>
                 <td><input type="checkbox" name="selectedProduct" value="${item.id}"></td>
                 <td><a href="${pageContext.request.contextPath}/admin?path=edit&id=${item.id}">Edit</a> </td>
             </tr>
         </c:forEach>
+        <tr>
+            <td>${mess}</td>
+        </tr>
         </tbody>
     </table>
     <button class="btn btn-danger btn-delete" style="align-items: center" type="button" id="deleteButton">Xóa</button>
@@ -134,10 +133,10 @@
         <a href="${pageContext.request.contextPath}/admin" class="btn btn-secondary" style="background-color: #1c5b41">OK</a>
     </div>
 </div>
-</c:if>
-<c:if test="${empty sessionScope.acc}">
-    <p>Vui lòng <a href="${pageContext.request.contextPath}/login">đăng nhập</a> để xem nội dung này.</p>
-</c:if>
+<%--</c:if>--%>
+<%--<c:if test="${empty sessionScope.acc}">--%>
+<%--    <p>Vui lòng <a href="${pageContext.request.contextPath}/login">đăng nhập</a> để xem nội dung này.</p>--%>
+<%--</c:if>--%>
 <script>
     document.getElementById("deleteButton").addEventListener("click", function() {
         var selectedProducts = document.querySelectorAll('input[name="selectedProduct"]:checked');

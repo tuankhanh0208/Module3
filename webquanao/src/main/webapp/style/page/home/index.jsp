@@ -42,10 +42,11 @@
 <%--                    phẩm</a>--%>
 <%--            </div>--%>
             <div class="row" style="margin-top: 20px">
+                <p >${mess}</p>
                 <c:forEach items="${list}" varStatus="loop" var="item">
                     <div class="card" style="width: 18rem; margin-top: 20px">
                         <a href="${pageContext.request.contextPath}/products?path=detail&id=${item.id}">
-                        <img src="${item.image}" class="card-img-top" alt="..."/>
+                        <img src="${item.image}" class="card-img-top" alt="${item.name}"/>
                         </a>
                         <div class="card-body">
                                 <%--                                <h5 class="card-title">${item.name}</h5>--%>

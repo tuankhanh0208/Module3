@@ -1,9 +1,7 @@
 package controller;
 
-import entity.Categories;
-import entity.Item;
-import entity.Order;
-import entity.Product;
+import entity.*;
+import service.AccountService;
 import service.ProductService;
 
 import javax.servlet.RequestDispatcher;
@@ -20,6 +18,7 @@ import java.util.List;
 @WebServlet(name = "productController",value="/products")
 public class ProductController extends HttpServlet {
     private final ProductService productService = new ProductService();
+    private final AccountService accountService = new AccountService();
 
     public ProductController() throws SQLException {
     }
@@ -51,11 +50,18 @@ public class ProductController extends HttpServlet {
             case "cart":
                 showCart(req,resp);
                 break;
+            case "signup":
+                showSignup(req,resp);
+                break;
             default:
                 showHome(req, resp);
                 break;
 
         }
+    }
+
+    private void showSignup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("/style/page/login/signup.jsp").forward(req,resp);
     }
 
     private void showCart(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -189,32 +195,14 @@ public class ProductController extends HttpServlet {
     private void showSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json;charset=UTF-8");
         String keyword =req.getParameter("keyword");
+        List<Categories> categories = productService.getAllCategories();
+        req.setAttribute("listCC",categories);
         List<Product> products =productService.findByString(keyword,keyword);
-//        PrintWriter out = resp.getWriter();
-//        for (Product product : products){
-//           out.println("<div class=\"card\" style=\"width: 18rem; margin-top: 20px\">\n" +
-//                    "                            <img src=\""+product.getImage()+"\" class=\"card-img-top\" alt=\"...\"/>\n" +
-//                    "                            <div class=\"card-body\">\n" +
-//                    "                                <h4 class=\"card-title\">"+product.getTitle()+"</h4>\n" +
-//                    "                                <h3 class=\"card-title\">$ "+product.getPrice()+"</h3>\n" +
-//                    "                                <p class=\"card-text\">"+product.getDescription()+"</p>\n" +
-//                    "                                <p class=\"card-text\"><small class=\"text-body-secondary\">Last updated 3 mins ago</small></p>\n" +
-//                    "                            </div>\n" +
-//                    "                            <div style=\"display: flex; justify-content: space-between;\">\n" +
-//                    "                                <a href=\"http://localhost:8080/products?path=edit&id=${item.id}\"\n" +
-//                    "                                   class=\"btn btn-primary edit\">Sửa</a>\n" +
-//                    "                                <label for=\"delete-${loop.index}\" class=\"btn btn-primary red\">Xóa</label>\n" +
-//                    "                                <input type=\"checkbox\" id=\"delete-${loop.index}\" class=\"confirm-checkbox\"/>\n" +
-//                    "                                <div class=\"confirm-modal\">\n" +
-//                    "                                    <div class=\"modal-content\">\n" +
-//                    "                                        <p>Bạn có chắc chắn muốn xóa?</p>\n" +
-//                    "                                        <a href=\"http://localhost:8080/products?path=delete&id=${item.id}\" class=\"btn btn-danger\">Xác nhận</a>\n" +
-//                    "                                        <label for=\"delete-${loop.index}\" class=\"btn btn-secondary\">Hủy</label>\n" +
-//                    "                                    </div>\n" +
-//                    "                                </div>\n" +
-//                    "                            </div>\n" +
-//                    "                        </div>");
-//        }
+        if (products == null || products.isEmpty()) {
+            req.setAttribute("mess", "Không có sản phẩm tìm kiếm");
+        } else {
+            req.setAttribute("mess", null); // Xóa thông báo nếu có sản phẩm
+        }
         req.setAttribute("list" ,products);
         req.getRequestDispatcher("style/page/home/index.jsp").forward(req,resp);
     }
@@ -240,9 +228,62 @@ public class ProductController extends HttpServlet {
             path ="";
         }
         switch (path){
+            case "signup":
+                signup(req,resp);
+                break;
+            case "login":
+                login(req,resp);
+                break;
             default:
                 showError(req,resp);
                 break;
+        }
+    }
+
+    private void login(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        String username = req.getParameter("user");
+        String password = req.getParameter("pass");
+        System.out.println(username);
+        System.out.println(password);
+        Account account = accountService.login(username, password);
+        if (account == null) {
+            req.setAttribute("mess", "Wrong user or pass");
+            req.getRequestDispatcher("/style/page/login/login.jsp").forward(req, resp);
+        } else {
+            HttpSession session = req.getSession();
+            session.setAttribute("acc", account);
+            session.setMaxInactiveInterval(10);
+//            req.getRequestDispatcher("index.jsp").forward(req,resp);
+            javax.servlet.http.Cookie userCookie = new javax.servlet.http.Cookie("username", account.getUser());
+            userCookie.setMaxAge(7 * 24 * 60 * 60);
+            resp.addCookie(userCookie);
+
+            if ("admin".equals(account.getRole())) {
+                resp.sendRedirect("/admin");
+            } else {
+                resp.sendRedirect("/products");
+
+            }
+
+        }
+    }
+
+    private void signup(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String user = req.getParameter("user");
+        String pass = req.getParameter("pass");
+        String re_pass = req.getParameter("repass");
+        if (!pass.equals(re_pass)){
+            req.setAttribute("mess" , "Password does not match Repeat Password");
+            req.getRequestDispatcher("/style/page/login/signup.jsp").forward(req,resp);
+        } else {
+            Account account = accountService.checkAccountExist(user);
+            if (account == null){
+                accountService.signup(user,pass);
+                resp.sendRedirect("/products");
+            }else {
+                req.setAttribute("mess" , "Username has existed ");
+                req.getRequestDispatcher("/style/page/login/signup.jsp").forward(req,resp);
+            }
         }
     }
 

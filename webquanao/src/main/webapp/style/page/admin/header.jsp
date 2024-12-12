@@ -27,10 +27,12 @@
         <div class="search">
             <form class="d-flex" role="search">
                 <input type="hidden" name="path" value="search">
-                <input oninput="searchByName(this)" class="form-control me-2"  placeholder="Search" aria-label="Search" name="keyword" value="${txt}">
+                <input class="form-control me-2" placeholder="Search by name" aria-label="Search" name="keyword" value="${txt}">
+<%--                <input class="form-control me-2" type="hidden" placeholder="Max price" aria-label="Price" name="price">--%>
                 <button class="btn btn-outline-success" type="submit">Search</button>
             </form>
         </div>
+
         <div class="account">
             <div class="title-account">
                 <p>Hello admin</p>
@@ -50,7 +52,7 @@
                     <c:if test="${sessionScope.acc == null}">
                         <a href="${pageContext.request.contextPath}/admin?path=login">Đăng nhập </a>
                         <span class="divider">/</span>
-                        <a href="/style/page/login/signup.jsp">Đăng Ký</a>
+                        <a href="${pageContext.request.contextPath}/admin?path=signup">Đăng Ký</a>
                     </c:if>
 
                 </div>

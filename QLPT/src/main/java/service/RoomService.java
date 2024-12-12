@@ -4,6 +4,7 @@ import connect.ConnectDatabase;
 import entity.Room;
 
 import java.sql.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,13 +57,14 @@ public class RoomService implements IRoomService<Room> {
 
 
     @Override
-    public void update(String id, Room room) {
+    public void update(String id, Room room)  {
         String sql = "UPDATE tenant SET username=?, phone=?, dateStart=?, paymentMethod=?, note=? WHERE idRoom=?";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, room.getUsername());
             preparedStatement.setString(2, room.getPhone());
-            preparedStatement.setDate(3,room.getDateStart());
+            preparedStatement.setDate(3, room.getDateStart());
+
             preparedStatement.setInt(4,room.getPaymentMethod());
             preparedStatement.setString(5, room.getNote());
             preparedStatement.setString(6, id);

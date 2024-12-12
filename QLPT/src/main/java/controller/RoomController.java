@@ -64,7 +64,7 @@ public class RoomController extends HttpServlet {
     }
 
 
-    private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+   private void showEdit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String roomId = req.getParameter("idRoom");
         Room room = roomService.findById(roomId);
         System.out.println(roomId);
@@ -101,7 +101,7 @@ public class RoomController extends HttpServlet {
                 showConfirmDelete(req,resp);
                 break;
             case "edit":
-                edit(req, resp);
+                    edit(req, resp);
                 break;
             case "search":
                 showSearch(req, resp);
@@ -132,19 +132,36 @@ public class RoomController extends HttpServlet {
 
     private void edit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String roomId = req.getParameter("idRoom");
-        System.out.println(roomId);
         String username = req.getParameter("username");
-        System.out.println(username);
         String phone = req.getParameter("phone");
-       Date dateStart = Date.valueOf(req.getParameter("dateStart"));
+        String dateStart = req.getParameter("dateStart");
+
+        // Định dạng ngày người dùng nhập vào là dd/MM/yyyy
+        SimpleDateFormat sfdInput = new SimpleDateFormat("dd/MM/yyyy");
+        // Định dạng ngày chuẩn cho Date.valueOf() là yyyy-MM-dd
+        SimpleDateFormat sfdOutput = new SimpleDateFormat("yyyy-MM-dd");
+
+        Date date = null;
+        try {
+            String formattedDate = sfdOutput.format(sfdInput.parse(dateStart));
+            date = Date.valueOf(formattedDate);  // Sử dụng Date.valueOf() với định dạng yyyy-MM-dd
+        } catch (ParseException e) {
+
+            req.setAttribute("error", "Ngày tháng không hợp lệ.");
+            req.getRequestDispatcher("edit.jsp").forward(req, resp);
+            return;
+        }
+
         int paymentMethod = Integer.parseInt(req.getParameter("paymentMethod"));
-        System.out.println(paymentMethod);
         String note = req.getParameter("note");
 
-        Room room = new Room(username, phone, dateStart, paymentMethod, note);
+        Room room = new Room(username, phone, date, paymentMethod, note);
         roomService.update(roomId, room);
+
         req.getRequestDispatcher("/rooms").forward(req, resp);
     }
+
+
 
     private void delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String[] roomIds = req.getParameterValues("selectedRooms");
@@ -160,23 +177,37 @@ public class RoomController extends HttpServlet {
     private void add(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         String username = req.getParameter("username");
         String phone = req.getParameter("phone");
-            Date dateStart = null;
+        Date dateStart = null;
+        boolean hasError = false;
         String dateInput = req.getParameter("dateStart");
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            java.util.Date formatDate =  dateFormat.parse(dateInput);
 
-            Date sqlDate = new Date(formatDate.getTime());
+        if (dateInput == null || dateInput.trim().isEmpty()) {
+            req.setAttribute("dateError", "Vui lòng nhập ngày bắt đầu thuê.");
+            hasError = true;
+        } else {
+            try {
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                java.util.Date formatDate = dateFormat.parse(dateInput);
 
-            dateStart = sqlDate;
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+                Date sqlDate = new Date(formatDate.getTime());
+
+                if (sqlDate.before(new Date(System.currentTimeMillis()))) {
+                    req.setAttribute("dateError", "Ngày bắt đầu thuê không được là ngày quá khứ.");
+                    hasError = true;
+                } else {
+                    dateStart = sqlDate;
+                }
+            } catch (ParseException e) {
+                req.setAttribute("dateError", "Định dạng ngày không hợp lệ. Vui lòng nhập ngày theo định dạng dd-MM-yyyy.");
+                hasError = true;
+            }
         }
+
         int paymentMethod = Integer.parseInt(req.getParameter("paymentMethod"));
         String note = req.getParameter("note");
 
 
-        boolean hasError = false;
+
 
         if (username == null || !username.matches("^[a-zA-Z\\s]{5,50}$")) {
             req.setAttribute("usernameError", "Tên người thuê trọ phải có từ 5 đến 50 kí tự và không chứa số hoặc kí tự đặc biệt.");
@@ -188,10 +219,10 @@ public class RoomController extends HttpServlet {
             hasError = true;
         }
 
-        if (dateStart.before(new Date(System.currentTimeMillis()))) {
-            req.setAttribute("dateError", "Ngày bắt đầu thuê không được là ngày quá khứ.");
-            hasError = true;
-        }
+//        if (dateStart.before(new Date(System.currentTimeMillis())) || (dateStart == "")) {
+//            req.setAttribute("dateError", "Ngày bắt đầu thuê không được là ngày quá khứ.");
+//            hasError = true;
+//        }
         if (note != null && note.length()>200){
             req.setAttribute("noteError","Ghi chú không được quá 200 kí tự.");
             hasError = true;

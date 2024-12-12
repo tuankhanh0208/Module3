@@ -19,7 +19,7 @@
     <h2>ĐĂNG KÝ</h2>
     <p>Đã có tài khoản, đăng nhập <a href="${pageContext.request.contextPath}/style/page/login/login.jsp">tại đây</a></p>
     <p class="text-danger">${mess}</p>
-    <form action="${pageContext.request.contextPath}/style/page/login/signup.jsp" method="post">
+    <form action="${pageContext.request.contextPath}/products?path=signup" method="post">
 <%--        <input type="text" class="form-control" placeholder="Họ">--%>
 <%--        <input type="text" class="form-control" placeholder="Tên">--%>
         <input name="user" type="name" class="form-control" placeholder="Username">

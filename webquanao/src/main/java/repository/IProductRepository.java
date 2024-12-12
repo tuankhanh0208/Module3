@@ -19,5 +19,11 @@ public interface IProductRepository <T>{
 
     List<Product> findByString(String name,String title);
 
+    List<Product> findByTest(String name, double price);
+
     List<T> getProductByPriceRange(double min, double max);
+
+    List<Product> getAllAdmin();
+
+    int addCategory(Categories category);
 }

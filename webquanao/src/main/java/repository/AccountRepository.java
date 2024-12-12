@@ -66,11 +66,12 @@ public class AccountRepository implements IAccountRepository<Account> {
     }
     @Override
     public void signup(String user,String pass){
-        String sql = "insert into account (user, pass) values (?,?); ";
+        String sql = "insert into account (user, pass,role) values (?,?,'user'); ";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1,user);
             preparedStatement.setString(2,pass);
+//            preparedStatement.setString();
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

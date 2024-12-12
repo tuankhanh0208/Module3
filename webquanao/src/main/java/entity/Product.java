@@ -7,12 +7,12 @@ public class Product {
     private String title;
     private double price;
     private String image;
-    private int idCategory ;
+    private Categories idCategory ;
 
     public Product() {
     }
 
-    public Product( String name, String description, String title, double price, String image, int idCategory) {
+    public Product( String name, String description, String title, double price, String image, Categories idCategory) {
         this.name = name;
         this.description = description;
         this.title = title;
@@ -29,7 +29,7 @@ public class Product {
         this.image = image;
     }
 
-    public Product(int id, String name, String description, String title, double price, String image,int idCategory) {
+    public Product(int id, String name, String description, String title, double price, String image,Categories idCategory) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,11 +39,11 @@ public class Product {
         this.idCategory=idCategory;
     }
 
-    public int getIdCategory() {
+    public Categories getIdCategory() {
         return idCategory;
     }
 
-    public void setIdCategory(int idCategory) {
+    public void setIdCategory(Categories idCategory) {
         this.idCategory = idCategory;
     }
 

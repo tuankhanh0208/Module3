@@ -1,5 +1,6 @@
 package controller;
 
+import entity.Categories;
 import entity.Product;
 import service.ProductService;
 
@@ -42,11 +43,18 @@ public class AdminController extends HttpServlet {
             case "login":
                 showLogin(request,response);
                 break;
+            case "signup":
+                showSignup(request,response);
+                break;
             default:
                 showHomeAdmin(request, response);
 //                showError(request,response);
                 break;
         }
+    }
+
+    private void showSignup(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.getRequestDispatcher("/style/page/login/signup.jsp").forward(request,response);
     }
 
     private void showLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,8 +64,22 @@ public class AdminController extends HttpServlet {
     private void showSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         String keyword =request.getParameter("keyword");
-        List<Product> products =productService.findByString(keyword,keyword);
-
+        System.out.println(keyword);
+        String price = request.getParameter("keyword");
+        double v = 0;
+        try {
+            if (price != null && !price.isEmpty()){
+                v=Double.parseDouble(price);
+            }
+        }catch (NumberFormatException e){
+            v=0;
+        }
+        List<Product> products =productService.findByTest(keyword,v);
+        if (products == null || products.isEmpty()) {
+            request.setAttribute("mess", "Không có sản phẩm tìm kiếm");
+        } else {
+            request.setAttribute("mess", null);
+        }
         request.setAttribute("list" ,products);
         request.setAttribute("txt" ,keyword);
         request.getRequestDispatcher("style/page/admin/home.jsp").forward(request,response);
@@ -91,16 +113,20 @@ public class AdminController extends HttpServlet {
     private void showEdit(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int idIndex = Integer.parseInt(request.getParameter("id"));
         Product product = productService.findById(idIndex);
+        List<Categories> categoriesList = productService.getAllCategories();
+        request.setAttribute("categoriesList", categoriesList);
         request.setAttribute("product",product);
         request.getRequestDispatcher("style/page/editProduct/edit.jsp").forward(request,response);
     }
 
     private void showAdd(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Categories> categoriesList = productService.getAllCategories();
+        request.setAttribute("categoriesList", categoriesList);
         request.getRequestDispatcher("style/page/addProduct/add.jsp").forward(request,response);
     }
 
     private void showHomeAdmin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> list = productService.getAll();
+        List<Product> list = productService.getAllAdmin();
         request.setAttribute("list" ,list);
         RequestDispatcher dispatcher = request.getRequestDispatcher("style/page/admin/home.jsp");
         dispatcher.forward(request,response);
@@ -128,10 +154,17 @@ public class AdminController extends HttpServlet {
             case "login":
                 showLogin(request,response);
                 break;
+            case "signup":
+                signup(request,response);
+                break;
             default:
                 showError(request,response);
                 break;
         }
+    }
+
+    private void signup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/admin?path=login");
     }
 
     private void edit(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -142,7 +175,9 @@ public class AdminController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         String image = request.getParameter("image");
         int idCategory = Integer.parseInt(request.getParameter("categoryMethod"));
-        Product product = new Product(name,description,title,price,image,idCategory);
+        Categories categories = new Categories(idCategory);
+        System.out.println(id+ "" +idCategory);
+        Product product = new Product(name,description,title,price,image,categories);
         productService.update(id,product);
         response.sendRedirect("/admin");
     }
@@ -153,11 +188,25 @@ public class AdminController extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         String title = request.getParameter("title");
         String image = request.getParameter("image");
-        int idCategory = Integer.parseInt(request.getParameter("categoryMethod"));
-        Product product = new Product(name,description,title,price,image,idCategory);
+        String categoryMethod = request.getParameter("categoryMethod");
+        Categories categories;
+
+        if ("other".equals(categoryMethod)) {
+            String otherCategory = request.getParameter("otherCategory");
+
+            categories = new Categories(otherCategory);
+            int newCategoryId = productService.addCategory(categories);
+            categories.setCid(newCategoryId);
+        } else {
+            int idCategory = Integer.parseInt(categoryMethod);
+            categories = new Categories(idCategory);
+        }
+
+        Product product = new Product(name, description, title, price, image, categories);
         productService.add(product);
         response.sendRedirect("/admin");
     }
+
 
     private void showError(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("errorMessage","Bad Request - 404");

@@ -3,17 +3,19 @@ package entity;
 public class Categories {
     private int cid;
     private String name;
-    private String description;
 
-    public Categories(String name, String description) {
+
+    public Categories(String name) {
         this.name = name;
-        this.description = description;
     }
 
-    public Categories(int cid, String name, String description) {
+    public Categories(int cid) {
+        this.cid = cid;
+    }
+
+    public Categories(int cid, String name) {
         this.cid = cid;
         this.name = name;
-        this.description = description;
     }
 
     public int getCid() {
@@ -30,13 +32,5 @@ public class Categories {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

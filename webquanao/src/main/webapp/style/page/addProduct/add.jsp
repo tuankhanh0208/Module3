@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: tk020
@@ -117,13 +118,17 @@
             </li>
             <li>
                 <p>Category</p>
-                <select class="form-select " name="categoryMethod" aria-label="Default select example">
-                    <option value="1">Men</option>
-                    <option value="2">Women</option>
-                    <option value="3">Kids</option>
-                    <option value="4">Shoes</option>
-                    <option value="5">Accessories</option>
+                <select class="form-select " name="categoryMethod" id="categoryMethod" onchange="checkOtherCategory()">
+                    <c:forEach items="${categoriesList}" var="category">
+                        <option value="${category.cid}">${category.name}</option>
+                    </c:forEach>
+                    <option value="other">Khác</option>
                 </select>
+
+                <!-- Input ẩn để người dùng nhập khi chọn 'Khác' -->
+                <input type="text" id="otherCategoryInput" name="otherCategory" placeholder="Nhập danh mục khác..." style="display: none;" />
+
+
             </li>
             <li>
                 <div class="submit">
@@ -134,6 +139,18 @@
         </ul>
     </div>
 </form>
+<script>
+    function checkOtherCategory() {
+        const selectElement = document.getElementById('categoryMethod');
+        const otherCategoryInput = document.getElementById('otherCategoryInput');
 
+        if (selectElement.value === 'other') {
+            otherCategoryInput.style.display = 'block';
+        } else {
+            otherCategoryInput.style.display = 'none';
+        }
+    }
+
+</script>
 </body>
 </html>

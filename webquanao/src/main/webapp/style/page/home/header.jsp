@@ -93,7 +93,7 @@
             <c:if test="${sessionScope.acc == null}">
                 <a href="/style/page/login/login.jsp">Đăng nhập </a>
                 <span class="divider">/</span>
-                <a href="/style/page/login/signup.jsp">Đăng Ký</a>
+                <a href="${pageContext.request.contextPath}/products?path=signup">Đăng Ký</a>
             </c:if>
 
         </div>

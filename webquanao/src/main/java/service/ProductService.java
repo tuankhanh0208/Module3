@@ -8,6 +8,7 @@ import repository.ProductRepository;
 import java.sql.SQLException;
 import java.util.List;
 
+
 public class ProductService implements IProductService<Product> {
 
 private final IProductRepository<Product> iProductRepository = new ProductRepository();
@@ -58,5 +59,20 @@ private final IProductRepository<Product> iProductRepository = new ProductReposi
     @Override
     public List<Product> getProductByPriceRange(double min, double max) {
         return this.iProductRepository.getProductByPriceRange(min,max);
+    }
+
+    @Override
+    public List<Product> getAllAdmin() {
+        return this.iProductRepository.getAllAdmin();
+    }
+
+    @Override
+    public List<Product> findByTest(String name, double price) {
+        return this.iProductRepository.findByTest(name,price);
+    }
+
+    @Override
+    public int addCategory(Categories category) {
+        return this.iProductRepository.addCategory(category);
     }
 }
